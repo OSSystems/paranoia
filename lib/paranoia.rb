@@ -55,7 +55,7 @@ module Paranoia
   module Callbacks
     def self.extended(klazz)
       [:restore, :real_destroy].each do |callback_name|
-        klazz.define_callbacks callback_name
+        klazz.define_model_callbacks callback_name
 
         klazz.define_singleton_method("before_#{callback_name}") do |*args, &block|
           set_callback(callback_name, :before, *args, &block)
@@ -113,10 +113,10 @@ module Paranoia
           touch
         end
         restore_associated_records if opts[:recursive]
+
+        self
       end
     end
-
-    self
   end
   alias :restore :restore!
 
